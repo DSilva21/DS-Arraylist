@@ -3,61 +3,78 @@
 
 int main(void)
 {
-	//ArrayList의 생성 및 초기화
-
 	List list;
-	int data;
+	Point compPos;
+	Point *ppos;
+
 	ListInit(&list);
-	int sum = 0;
 
-	//0~9의 데이터 저장//
-	int i;
-	for (i = 0; i < 10; i++)
+	//4개의 데이터 저장//
+
+	ppos = (Point*)malloc(sizeof(Point));
+	SetPointPos(ppos, 2, 1);
+	LInsert(&list, ppos);
+
+	ppos = (Point*)malloc(sizeof(Point));
+	SetPointPos(ppos, 2, 2);
+	LInsert(&list, ppos);
+
+	ppos = (Point*)malloc(sizeof(Point));
+	SetPointPos(ppos, 3, 1);
+	LInsert(&list, ppos);
+
+	ppos = (Point*)malloc(sizeof(Point));
+	SetPointPos(ppos, 3, 2);
+	LInsert(&list, ppos);
+
+
+	//저장된 데이터의 출력
+	printf("현재 데이터의 수 :%d\n", LCount(&list));
+
+	if (LFirst(&list, &ppos))
 	{
-		LInsert(&list, i);
+		ShowPointPos(ppos);
+		while (LNext(&list, &ppos))
+			ShowPointPos(ppos);
+		printf("\n");
 	}
-	
 
-	
-	if (LFirst(&list, &data)) //첫번째 데이터 조회
+	//xpos가 2인 모든 데이터 삭제//
+	compPos.xpos = 2;
+	compPos.ypos = 0;
+
+	if (LFirst(&list, &ppos))
 	{
-		
-		sum += data;
-		while (LNext(&list, &data)) //두 번째 이후의 데이터 조회
-			sum += data;
-
-	}
-	printf("현재 리스트에 저장된 값의 총 합: %d\n",sum);
-
-
-	//리스트에 저장된 값중 2의배수, 3의 배수를 탐색하여 모두 삭제/ /
-
-	if (LFirst(&list, &data))
-	{
-		if (data %2==0 || data%3==0)
-			LRemove(&list);
-
-		while (LNext(&list, &data))
+		if (PointComp(ppos, &compPos) == 1)
 		{
-			if (data % 2 == 0 || data % 3 == 0)
-				LRemove(&list);
+			ppos = LRemove(&list);
+			free(ppos);
+		}
+
+		while (LNext(&list, &ppos))
+		{
+			if (PointComp(ppos, &compPos) == 1)
+			{
+				ppos = LRemove(&list);
+				free(ppos);
+			}
 		}
 	}
-
-
-	//삭제 후 남은 데이터 전체 출력//
 	
+	//삭제 후 남은 데이터 전체 출력 //
+	printf("현재 데이터의 수: %d\n", LCount(&list));
 
-	if (LFirst(&list, &data))
+	if (LFirst(&list, &ppos))
 	{
-		printf("%d   ", data);
+		ShowPointPos(ppos);
 
-		while (LNext(&list, &data))
-			printf("%d  ", data);
-
+		while (LNext(&list, &ppos))
+			ShowPointPos(ppos);
 	}
-	printf("\n\n");
-	getchar(); //즉시 종료 방지
+
+	printf("\n");
+
+	getchar();
 	return 0;
 
 }
