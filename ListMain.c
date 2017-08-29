@@ -8,56 +8,56 @@ int main(void)
 	List list;
 	int data;
 	ListInit(&list);
+	int sum = 0;
 
-	//5개의 데이터 저장//
+	//0~9의 데이터 저장//
+	int i;
+	for (i = 0; i < 10; i++)
+	{
+		LInsert(&list, i);
+	}
+	
 
 	
-	LInsert(&list, 11);
-	LInsert(&list, 11);
-	LInsert(&list, 22);
-	LInsert(&list, 22);
-	LInsert(&list, 33);
-
-	//저장된 데이터의 전체 출력// 
-	printf("현재 데이터의 수: %d \n", LConut(&list));
-
 	if (LFirst(&list, &data)) //첫번째 데이터 조회
 	{
-		printf("%d", data);
-
+		
+		sum += data;
 		while (LNext(&list, &data)) //두 번째 이후의 데이터 조회
-			printf("%d", data);
+			sum += data;
 
 	}
-	printf("\n\n");
+	printf("현재 리스트에 저장된 값의 총 합: %d\n",sum);
 
-	//숫자 22를 탐색하여 모두 삭제/ /
+
+	//리스트에 저장된 값중 2의배수, 3의 배수를 탐색하여 모두 삭제/ /
 
 	if (LFirst(&list, &data))
 	{
-		if (data == 22)
+		if (data %2==0 || data%3==0)
 			LRemove(&list);
 
 		while (LNext(&list, &data))
 		{
-			if (data == 22)
+			if (data % 2 == 0 || data % 3 == 0)
 				LRemove(&list);
 		}
 	}
 
 
 	//삭제 후 남은 데이터 전체 출력//
-	printf("현제 데이터의 수: %d \n", LCount(&list));
+	
 
 	if (LFirst(&list, &data))
 	{
-		printf("%d", data);
+		printf("%d   ", data);
 
 		while (LNext(&list, &data))
-			printf("%d", data);
+			printf("%d  ", data);
 
 	}
 	printf("\n\n");
+	getchar(); //즉시 종료 방지
 	return 0;
 
 }
